@@ -28,7 +28,7 @@ public class TaskEstimationPERT {
     //
     // Summarizes estimates giving the total completion estimate for a set of tasks
     //
-    public static Estimate CombineEstimates(List<Estimate> aEstimates) throws IllegalArgumentException {
+    public static Estimate combineEstimates(List<Estimate> aEstimates) throws IllegalArgumentException {
         // Check input
         if (aEstimates == null) {
             throw new IllegalArgumentException("Set of estimates is NULL");

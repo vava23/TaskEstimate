@@ -27,6 +27,19 @@
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
+      <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13-beta-3</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>

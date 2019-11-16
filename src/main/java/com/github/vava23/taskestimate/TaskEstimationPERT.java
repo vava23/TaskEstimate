@@ -10,7 +10,7 @@ public class TaskEstimationPERT {
     //
     // Estimation of task completion time
     //
-    public Estimate calcTaskEstimate(
+    public static Estimate calcTaskEstimate(
             double aTimeOptimistic,
             double aTimePessimistic,
             double aTimeMostLikely) throws IllegalArgumentException {
@@ -20,8 +20,8 @@ public class TaskEstimationPERT {
         }
 
         // Calculate the estimate
-        double time = aTimeOptimistic + aTimeMostLikely*4 + aTimePessimistic;
-        double stDev = (aTimePessimistic - aTimeOptimistic) / 6;
+        double time = (aTimeOptimistic + aTimeMostLikely*4 + aTimePessimistic)/6;
+        double stDev = (aTimeOptimistic - aTimePessimistic) / 6;
         return new Estimate(time, stDev);
     }
 

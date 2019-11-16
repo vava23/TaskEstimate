@@ -105,3 +105,11 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+/TaskEstimate.iml
+/.idea/
+/.idea/checkstyle-idea.xml
+/.idea/checkstyleidea-libs/readme.txt
+/.idea/compiler.xml
+/.idea/encodings.xml
+/.idea/misc.xml
+/.idea/vcs.xml

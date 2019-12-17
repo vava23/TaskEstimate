@@ -1,4 +1,4 @@
-package com.github.vava23.taskestimate;
+package com.github.vava23.taskestimate.business;
 
 import java.util.List;
 
@@ -19,9 +19,11 @@ public class TaskEstimationPERT {
             throw new IllegalArgumentException("Wrong time value");
         }
 
+        // TODO Check if inputs are in the correct order
+
         // Calculate the estimate
         double time = (aTimeOptimistic + aTimeMostLikely*4 + aTimePessimistic)/6;
-        double stDev = (aTimeOptimistic - aTimePessimistic) / 6;
+        double stDev = (aTimePessimistic - aTimeOptimistic) / 6;
         return new Estimate(time, stDev);
     }
 

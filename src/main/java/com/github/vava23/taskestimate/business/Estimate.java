@@ -1,4 +1,4 @@
-package com.github.vava23.taskestimate;
+package com.github.vava23.taskestimate.business;
 
 //
 // Estimation of time in days

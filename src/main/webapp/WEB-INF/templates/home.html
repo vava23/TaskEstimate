@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Task Estimate</title>
+  </head>
+  <body bgcolor=#f0f8ff>
+    <h1>This is the Task Estimate Tool</h1>
+    <p><i>This tool is designed for estimating a task completion time with a probabilistic approach.</i></p>
+    <br>
+    <form action="" method=POST>
+      Most likely estimate, days:
+      <br>
+      <input type=text name=mlcase>
+      <br>
+      <i>Average completion time for such task</i>
+      <br><br>
+      Estimate in the best case (optimistic), days:
+      <br>
+      <input type=text name=bestcase>
+      <br>
+      <i>Completion time if everything goes smooth and easy</i>
+      <br><br>
+      Estimate in the worst case (pessimistic), days:
+      <br>
+      <input type=text name=worstcase>
+      <br>
+      <i>Completion time in the worst circumstances, considering all the unexpected problems</i>
+      <br><br>
+      <input type=submit value="Get estimate">
+    </form>
+    <br>
+    <!-- Results -->
+    <div th:if="${estimate}">
+    <h2>Result:</h2>
+    <p>
+        <b>Expected completion time</b>: <span th:text="${estimate.days}"></span>5.7 days<br>
+        <b>Accuracy</b>: <span th:text="${estimate.stDeviation}"></span> +/-1.0 days
+    </p>
+    <h2>Input params were:</h2>
+    <p>
+        <b>Most likely</b>: <span th:text="${param.mlcase}">5.0</span> days<br>
+        <b>Best case</b>: <span th:text="${param.bestcase}">4.0</span> days<br>
+        <b>Worst case</b>: <span th:text="${param.worstcase}">10.0</span> days
+    </p>
+    </div>
+  </body>
+</html>

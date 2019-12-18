@@ -11,19 +11,19 @@
     <form action="" method=POST>
       Most likely estimate, days:
       <br>
-      <input type=text name=mlcase>
+      <input type=number name=mlcase min=0 max=9999 required="required">
       <br>
       <i>Average completion time for such task</i>
       <br><br>
       Estimate in the best case (optimistic), days:
       <br>
-      <input type=text name=bestcase>
+      <input type=number name=bestcase min=0 max=9999 required="required">
       <br>
       <i>Completion time if everything goes smooth and easy</i>
       <br><br>
       Estimate in the worst case (pessimistic), days:
       <br>
-      <input type=text name=worstcase>
+      <input type=number name=worstcase min=0 max=9999 required="required">
       <br>
       <i>Completion time in the worst circumstances, considering all the unexpected problems</i>
       <br><br>
@@ -34,8 +34,8 @@
     <div th:if="${estimate}">
     <h2>Result:</h2>
     <p>
-        <b>Expected completion time</b>: <span th:text="${estimate.days}"></span>5.7 days<br>
-        <b>Accuracy</b>: <span th:text="${estimate.stDeviation}"></span> +/-1.0 days
+        <b>Expected completion time</b>: <span th:text="${estimate.days}">5.7</span> days<br>
+        <b>Accuracy</b>: +/-<span th:text="${estimate.stDeviation}">1.0</span> days
     </p>
     <h2>Input params were:</h2>
     <p>

@@ -14,7 +14,7 @@ import org.thymeleaf.context.WebContext;
 
 
 //
-// Main and only servlet, request processing
+// Main servlet, processing requests for the home page
 //
 public class TaskEstimateServlet extends HttpServlet {
     private TaskEstimateApplication application;

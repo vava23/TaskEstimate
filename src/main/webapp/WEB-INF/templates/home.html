@@ -3,33 +3,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Task Estimate</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}"/>
   </head>
   <body bgcolor=#f0f8ff>
+    <div class="container">
     <h1>This is the Task Estimate Tool</h1>
     <p><i>This tool is designed for estimating a task completion time with a probabilistic approach.</i></p>
-    <br>
-    <form action="" method=POST>
-      Most likely estimate, days:
-      <br>
-      <input type=number name=mlcase min=0 max=9999 required="required">
-      <br>
-      <i>Average completion time for such task</i>
-      <br><br>
-      Estimate in the best case (optimistic), days:
-      <br>
-      <input type=number name=bestcase min=0 max=9999 required="required">
-      <br>
-      <i>Completion time if everything goes smooth and easy</i>
-      <br><br>
-      Estimate in the worst case (pessimistic), days:
-      <br>
-      <input type=number name=worstcase min=0 max=9999 required="required">
-      <br>
-      <i>Completion time in the worst circumstances, considering all the unexpected problems</i>
-      <br><br>
-      <input type=submit value="Get estimate">
+
+    <!--Input form-->
+    <form action="" method=POST role="form">
+      <div class="form-group">
+        <label for="inputmlcase">Most likely estimate, days:</label>
+        <br>
+        <input type=number id="inputmlcase" name=mlcase min=0 max=9999 required="required"><!-- aria-describedby="mlcasehelp"-->
+        <br>
+        <small class="form-text text-muted" id="mlcasehelp">Average completion time for such task</small>
+      </div>
+      <div class="form-group">
+        <label for="inputbestcase">Estimate in the best case (optimistic), days:</label>
+        <br>
+        <input type=number id="inputbestcase" name=bestcase min=0 max=9999 required="required">
+        <br>
+        <small class="form-text text-muted" id="bestcasehelp">Completion time if everything goes smooth and easy</small>
+      </div>
+      <div class="form-group">
+        <label for="inputworstcase">Estimate in the worst case (pessimistic), days:</label>
+        <br>
+        <input type=number id="inputworstcase" name=worstcase min=0 max=9999 required="required">
+        <br>
+        <small class="form-text text-muted" id="worstcasehelp">Completion time in the worst circumstances, considering all the unexpected problems</small>
+      </div>
+      <button type=submit class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Get estimate</button>
     </form>
     <br>
+
     <!-- Results -->
     <div th:if="${estimate}">
     <h2>Result:</h2>
@@ -44,5 +51,7 @@
         <b>Worst case</b>: <span th:text="${param.worstcase}">10.0</span> days
     </p>
     </div>
+    </div>
+    <script type="text/javascript" src="../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
   </body>
 </html>

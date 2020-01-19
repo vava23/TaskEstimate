@@ -41,8 +41,8 @@
     <div th:if="${estimate}">
     <h2>Result:</h2>
     <p>
-        <b>Expected completion time</b>: <span th:text="${estimate.days}">5.7</span> days<br>
-        <b>Accuracy</b>: +/-<span th:text="${estimate.stDeviation}">1.0</span> days
+        <b>Expected completion time</b>: <span th:text="${#numbers.formatDecimal(estimate.days, 1, 1)}">5.7</span> days<br>
+        <b>Accuracy</b>: +/-<span th:text="${#numbers.formatDecimal(estimate.stDeviation, 1, 1)}">1.0</span> days
     </p>
     <h2>Input params were:</h2>
     <p>

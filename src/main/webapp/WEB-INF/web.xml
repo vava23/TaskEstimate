@@ -9,7 +9,7 @@
 
   <servlet>
     <servlet-name>TaskEstimate</servlet-name>
-    <servlet-class>com.github.vava23.taskestimate.web.TaskEstimateServlet</servlet-class>
+    <servlet-class>com.github.vava23.taskestimate.web.HomeServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>

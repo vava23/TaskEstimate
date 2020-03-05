@@ -1,13 +1,13 @@
 package com.github.vava23.taskestimate;
 
-import com.github.vava23.taskestimate.business.TaskEstimationPERT;
+import com.github.vava23.taskestimate.business.TaskEstimationService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 //
 // Task completion estimation based on PERT technique
 //
-public class TaskEstimationPERTTest {
+public class TaskEstimationServiceTest {
 
     //private final TaskEstimationPERT estimation = new TaskEstimationPERT();
 
@@ -16,17 +16,17 @@ public class TaskEstimationPERTTest {
         // Incorrect input
         boolean thrown = true;
         try {
-            TaskEstimationPERT.calcTaskEstimate(-1, 1, 1);
+            TaskEstimationService.calcTaskEstimate(-1, 1, 1);
             thrown = false;
         }
         catch (IllegalArgumentException e) { }
         try {
-            TaskEstimationPERT.calcTaskEstimate(1, -1, 1);
+            TaskEstimationService.calcTaskEstimate(1, -1, 1);
             thrown = false;
         }
         catch (IllegalArgumentException e) { }
         try {
-            TaskEstimationPERT.calcTaskEstimate(1, 1, -1);
+            TaskEstimationService.calcTaskEstimate(1, 1, -1);
             thrown = false;
         }
         catch (IllegalArgumentException e) { }
@@ -38,7 +38,7 @@ public class TaskEstimationPERTTest {
         // Null list on input
         boolean thrown = true;
         try {
-            TaskEstimationPERT.combineEstimates(null);
+            TaskEstimationService.combineEstimates(null);
             thrown = false;
         }
         catch (IllegalArgumentException e) { }

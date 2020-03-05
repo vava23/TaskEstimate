@@ -5,7 +5,7 @@ import java.util.List;
 //
 // Task completion estimation based on PERT technique
 //
-public class TaskEstimationPERT {
+public class TaskEstimationService {
 
     //
     // Estimation of task completion time

@@ -1,7 +1,7 @@
 package com.github.vava23.taskestimate.web;
 
 import com.github.vava23.taskestimate.business.Estimate;
-import com.github.vava23.taskestimate.business.TaskEstimationPERT;
+import com.github.vava23.taskestimate.business.TaskEstimationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ import org.thymeleaf.context.WebContext;
 //
 // Main servlet, processing requests for the home page
 //
-public class TaskEstimateServlet extends HttpServlet {
+public class HomeServlet extends HttpServlet {
     private TaskEstimateApplication application;
 
     @Override
@@ -25,45 +25,53 @@ public class TaskEstimateServlet extends HttpServlet {
         application = new TaskEstimateApplication(getServletContext());
     }
 
+    protected boolean validateRequestParams(HttpServletRequest req) {
+        // Fetch params
+        String pMostLikelyCase = req.getParameter("mlcase");
+        String pBestCase = req.getParameter("bestcase");
+        String pWorstCase = req.getParameter("worstcase");
+
+        // Check if params are empty
+        if (pWorstCase == null || pMostLikelyCase == null || pBestCase == null)
+            return false;
+        if (pWorstCase.isEmpty() && pMostLikelyCase.isEmpty() && pBestCase.isEmpty())
+            return false;
+
+        // Try to parse the numeric values
+        try {
+            Double.parseDouble(pWorstCase);
+            Double.parseDouble(pMostLikelyCase);
+            Double.parseDouble(pBestCase);
+        }
+        catch (NumberFormatException ex) {
+            return false;
+        }
+
+        // No problem found, return true
+        return true;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         // Response headers
+        // TODO: add a filter!
         resp.setContentType("text/html;charset=UTF-8");
 
         try {
-            // Fetch params
-            String pMostLikelyCase = req.getParameter("mlcase");
-            String pBestCase = req.getParameter("bestcase");
-            String pWorstCase = req.getParameter("worstcase");
-            boolean emptyParams = pWorstCase == null || pMostLikelyCase == null || pBestCase == null;
-            if (!emptyParams) {
-                emptyParams = pWorstCase.isEmpty() && pMostLikelyCase.isEmpty() && pBestCase.isEmpty();
-            }
-
-            // Parse the input values
-            double worstCase = 0;
-            double mostLikelyCase = 0;
-            double bestCase = 0;
-            boolean correctParams = (!emptyParams);
-            if (!emptyParams) {
-                correctParams = true;
-                try {
-                    worstCase = Double.parseDouble(pWorstCase);
-                    mostLikelyCase = Double.parseDouble(pMostLikelyCase);
-                    bestCase = Double.parseDouble(pBestCase);
-                }
-                catch (NumberFormatException ex) {
-                    correctParams = false;
-                }
-            }
-
-            // Perform the calculations
             Estimate estimate = null;
+            // Check the params
+            boolean correctParams = validateRequestParams(req);
             if (correctParams) {
-                estimate = TaskEstimationPERT.calcTaskEstimate(bestCase, worstCase, mostLikelyCase);
+                // Parse the input values
+                double worstCase = Double.parseDouble(req.getParameter("worstcase"));
+                double mostLikelyCase = Double.parseDouble(req.getParameter("mlcase"));
+                double bestCase = Double.parseDouble(req.getParameter("bestcase"));
+
+                // Perform the calculations
+                estimate = TaskEstimationService.calcTaskEstimate(bestCase, worstCase, mostLikelyCase);
             }
 
-            // Get Web Context and pass the estimate to it
+            // Pass the estimate to Thymeleaf context
             final WebContext webCtx = new WebContext(req, resp, getServletContext());
             webCtx.setVariable("estimate", estimate);
 

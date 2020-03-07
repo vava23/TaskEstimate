@@ -1,15 +1,15 @@
-package com.github.vava23.taskestimate.business;
+package com.github.vava23.taskestimate.domain;
 
 import java.util.List;
 
-//
-// Task completion estimation based on PERT technique
-//
+/**
+ * Task completion estimation based on PERT technique
+ */
 public class TaskEstimationService {
 
-    //
-    // Estimation of task completion time
-    //
+    /**
+     * Estimation of task completion time.
+     */
     public static Estimate calcTaskEstimate(
             double aTimeOptimistic,
             double aTimePessimistic,
@@ -27,9 +27,9 @@ public class TaskEstimationService {
         return new Estimate(time, stDev);
     }
 
-    //
-    // Summarizes estimates giving the total completion estimate for a set of tasks
-    //
+    /**
+     * Summarizes estimates giving the total completion estimate for a set of tasks.
+     */
     public static Estimate combineEstimates(List<Estimate> aEstimates) throws IllegalArgumentException {
         // Check input
         if (aEstimates == null) {
@@ -48,5 +48,4 @@ public class TaskEstimationService {
         double stDev = Math.sqrt(stDevSqSum);
         return new Estimate(time, stDev);
     }
-
 }

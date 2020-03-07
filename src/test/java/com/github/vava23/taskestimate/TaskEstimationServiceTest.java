@@ -1,6 +1,6 @@
 package com.github.vava23.taskestimate;
 
-import com.github.vava23.taskestimate.business.TaskEstimationService;
+import com.github.vava23.taskestimate.domain.TaskEstimationService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

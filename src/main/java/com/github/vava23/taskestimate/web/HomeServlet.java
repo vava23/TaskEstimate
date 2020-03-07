@@ -1,7 +1,7 @@
 package com.github.vava23.taskestimate.web;
 
-import com.github.vava23.taskestimate.business.Estimate;
-import com.github.vava23.taskestimate.business.TaskEstimationService;
+import com.github.vava23.taskestimate.domain.Estimate;
+import com.github.vava23.taskestimate.domain.TaskEstimationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

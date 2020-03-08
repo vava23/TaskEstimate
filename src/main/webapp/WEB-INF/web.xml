@@ -12,6 +12,15 @@
     <servlet-class>com.github.vava23.taskestimate.web.HomeServlet</servlet-class>
   </servlet>
 
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>com.github.vava23.taskestimate.web.EncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+
   <servlet-mapping>
     <servlet-name>TaskEstimate</servlet-name>
     <url-pattern>/</url-pattern>
@@ -21,4 +30,8 @@
     <url-pattern>/resources/*</url-pattern>
   </servlet-mapping>
 
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/</url-pattern>
+  </filter-mapping>
 </web-app>

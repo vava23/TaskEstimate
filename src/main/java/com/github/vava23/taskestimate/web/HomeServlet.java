@@ -53,10 +53,6 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-        // Response headers
-        // TODO: add a filter!
-        resp.setContentType("text/html;charset=UTF-8");
-
         try {
             Estimate estimate = null;
             // Check the params

@@ -30,7 +30,20 @@ public class TaskEstimationServiceTest {
             thrown = false;
         }
         catch (IllegalArgumentException e) { }
+        try {
+            TaskEstimationService.calcTaskEstimate(5, 6, 10);
+            thrown = false;
+        }
+        catch (IllegalArgumentException e) { }
+        try {
+            TaskEstimationService.calcTaskEstimate(5, 1, 4);
+            thrown = false;
+        }
+        catch (IllegalArgumentException e) { }
         Assert.assertTrue(thrown);
+
+        // Correct input
+        TaskEstimationService.calcTaskEstimate(5, 1, 10);
     }
 
     @Test

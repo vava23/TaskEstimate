@@ -11,20 +11,11 @@ public class TaskEstimationService {
      * Estimation of task completion time.
      */
     public static Estimate calcTaskEstimate(
-            double aTimeOptimistic,
-            double aTimePessimistic,
-            double aTimeMostLikely) throws IllegalArgumentException {
-        // Check input
-        if (aTimeOptimistic < 0 || aTimePessimistic < 0 || aTimeMostLikely < 0) {
-            throw new IllegalArgumentException("Wrong time value");
-        }
-
-        // TODO Check if inputs are in the correct order
-
-        // Calculate the estimate
-        double time = (aTimeOptimistic + aTimeMostLikely*4 + aTimePessimistic)/6;
-        double stDev = (aTimePessimistic - aTimeOptimistic) / 6;
-        return new Estimate(time, stDev);
+            double aTimeMostLikely,
+            double aTimeBestCase,
+            double aTimeWorstCase
+            ) throws IllegalArgumentException {
+        return new Task("", aTimeMostLikely, aTimeBestCase, aTimeWorstCase).getEstimate();
     }
 
     /**

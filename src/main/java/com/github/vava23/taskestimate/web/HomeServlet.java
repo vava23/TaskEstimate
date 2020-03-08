@@ -39,9 +39,9 @@ public class HomeServlet extends HttpServlet {
 
         // Try to parse the numeric values
         try {
-            Double.parseDouble(pWorstCase);
             Double.parseDouble(pMostLikelyCase);
             Double.parseDouble(pBestCase);
+            Double.parseDouble(pWorstCase);
         }
         catch (NumberFormatException ex) {
             return false;
@@ -63,12 +63,12 @@ public class HomeServlet extends HttpServlet {
             boolean correctParams = validateRequestParams(req);
             if (correctParams) {
                 // Parse the input values
-                double worstCase = Double.parseDouble(req.getParameter("worstcase"));
                 double mostLikelyCase = Double.parseDouble(req.getParameter("mlcase"));
                 double bestCase = Double.parseDouble(req.getParameter("bestcase"));
+                double worstCase = Double.parseDouble(req.getParameter("worstcase"));
 
                 // Perform the calculations
-                estimate = TaskEstimationService.calcTaskEstimate(bestCase, worstCase, mostLikelyCase);
+                estimate = TaskEstimationService.calcTaskEstimate(mostLikelyCase, bestCase, worstCase);
             }
 
             // Pass the estimate to Thymeleaf context

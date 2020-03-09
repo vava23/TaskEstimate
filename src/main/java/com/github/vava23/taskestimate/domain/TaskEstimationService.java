@@ -19,7 +19,7 @@ public class TaskEstimationService {
   ) {
     try {
       return new Task(aId, aTaskName, aTimeMostLikely, aTimeBestCase, aTimeWorstCase);
-    } catch (IllegalStateException e) {
+    } catch (IllegalArgumentException e) {
       // Add a message in case of exception
       if (errors != null) {
         errors.add(e.getMessage());
@@ -46,7 +46,7 @@ public class TaskEstimationService {
       throws IllegalArgumentException {
     // Check input
     if (aEstimates == null) {
-      throw new IllegalArgumentException("Set of estimates is NULL");
+      throw new IllegalArgumentException("set of estimates is NULL");
     }
 
     // Sum up the time and stDevs

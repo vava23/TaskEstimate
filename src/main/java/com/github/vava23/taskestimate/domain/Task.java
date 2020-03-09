@@ -89,13 +89,13 @@ public class Task {
   ) {
     // Check the inputs
     if (aTimeBestCase < 0 || aTimeWorstCase < 0 || aTimeMostLikely < 0) {
-      throw new IllegalArgumentException("Time value may not be negative");
+      throw new IllegalArgumentException("time value may not be negative");
     }
     if (Double.compare(aTimeBestCase, aTimeMostLikely) > 0) {
-      throw new IllegalArgumentException("Best case time may not exceed most likely time");
+      throw new IllegalArgumentException("best case time may not exceed most likely time");
     }
     if (Double.compare(aTimeMostLikely, aTimeWorstCase) > 0) {
-      throw new IllegalArgumentException("Most likely time may not exceed worst case time");
+      throw new IllegalArgumentException("most likely time may not exceed worst case time");
     }
 
     // Save the params

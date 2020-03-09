@@ -35,7 +35,7 @@ public class HomeServlet extends HttpServlet {
    */
   protected boolean validateRequestParams(HttpServletRequest req, List<String> errors) {
     // Fetch params
-    String paramTimeMostLikely = req.getParameter("timeostlikely");
+    String paramTimeMostLikely = req.getParameter("timemostlikely");
     String paramTimeBestCase = req.getParameter("timebestcase");
     String paramTimeWorstCase = req.getParameter("timeworstcase");
 
@@ -121,7 +121,7 @@ public class HomeServlet extends HttpServlet {
     if (correctParams) {
       // Parse the input values
       String taskname = req.getParameter("taskname");
-      double timeMostLikely = Double.parseDouble(req.getParameter("timeostlikely"));
+      double timeMostLikely = Double.parseDouble(req.getParameter("timemostlikely"));
       double timeBestCase = Double.parseDouble(req.getParameter("timebestcase"));
       double timeWorstCase = Double.parseDouble(req.getParameter("timeworstcase"));
 
@@ -134,6 +134,11 @@ public class HomeServlet extends HttpServlet {
         tasks = getTasks(req, true);
         tasks.add(newTask);
       }
+    }
+
+    // If there were errors, pass them to the request
+    if (!errors.isEmpty()) {
+      req.setAttribute("errors", errors);
     }
 
     doGet(req, resp);

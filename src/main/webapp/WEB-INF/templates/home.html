@@ -22,7 +22,7 @@
         </p>
         <h5>Input params were:</h5>
         <p>
-          <b>Most likely</b>: <span th:text="${param.timeostlikely}">5.0</span> days<br>
+          <b>Most likely</b>: <span th:text="${param.timemostlikely}">5.0</span> days<br>
           <b>Best case</b>: <span th:text="${param.timebestcase}">4.0</span> days<br>
           <b>Worst case</b>: <span th:text="${param.timeworstcase}">10.0</span> days
         </p>
@@ -90,42 +90,51 @@
       <div class="card">
         <h5 class="card-header" th:text="${tasks} ? 'Add a new task:' : 'Estimate your task:'">Add a new task:</h5>
         <div class="card-body">
-      <form method="POST" action="add-task">
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="input_taskname">Task name (optional)</label>
-          <div class="col">
-            <input class="form-control" type="text" id="input_taskname" name=taskname>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="input_timeml">Most likely estimate, days</label>
-          <div class="col-sm-2">
-            <input class="form-control" type="number" id="input_timeml" name=timeostlikely min=0 max=9999 required="required">
-          </div>
-          <div class="col">
-            <small class="form-text text-muted" id="help_timeml">Average completion time for such task</small>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="input_timebc">Estimate in the best case (optimistic), days</label>
-          <div class="col-sm-2">
-            <input class="form-control" type="number" id="input_timebc" name="timebestcase" min=0 max=9999 required="required" placeholder="">
-          </div>
-          <div class="col">
-            <small class="form-text text-muted" id="help_timebc">Completion time if everything goes smooth and easy</small>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="input_timewc">Estimate in the worst case (pessimistic), days</label>
-          <div class="col-sm-2">
-            <input class="form-control" type="number" id="input_timewc" name=timeworstcase min=0 max=9999 required="required">
-          </div>
-          <div class="col">
-            <small class="form-text text-muted" id="help_timewc">Completion time in the worst circumstances, considering all the unexpected problems</small>
-          </div>
-        </div>
-        <button type=submit class="btn btn-primary" th:text="${tasks} ? 'Add task' : 'Get estimate'">Add task</button>
-      </form>
+          <form method="POST" action="add-task">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_taskname">Task name (optional)</label>
+              <div class="col">
+                <input class="form-control" type="text" id="input_taskname" name=taskname th:value="${errors} ? ${param.taskname}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timeml">Most likely estimate, days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timeml" name="timemostlikely" min=0 max=9999
+                       required="required" th:value="${errors} ? ${param.timemostlikely}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timeml">Average completion time for such task</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timebc">Estimate in the best case (optimistic),
+                days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timebc" name="timebestcase" min=0 max=9999
+                       required="required" th:value="${errors} ? ${param.timebestcase}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timebc">Completion time if everything goes smooth and
+                  easy</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timewc">Estimate in the worst case (pessimistic),
+                days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timewc" name="timeworstcase" min=0 max=9999
+                       required="required" th:value="${errors} ? ${param.timeworstcase}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timewc">Completion time in the worst circumstances,
+                  considering all the unexpected problems</small>
+              </div>
+            </div>
+            <p class="text-danger" th:each="errormessage: ${errors}" th:text="${'Error: ' + errormessage}">Error: error message</p>
+            <button type=submit class="btn btn-primary" th:text="${tasks} ? 'Add task' : 'Get estimate'">Add task
+            </button>
+          </form>
         </div>
       </div>
 

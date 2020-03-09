@@ -7,6 +7,8 @@ import com.github.vava23.taskestimate.domain.TaskEstimationService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,12 +36,14 @@ public class HomeServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
     try {
       // Get attr objects from the request
-      List<Task> tasks = getTasks(req, false);
+      Map<Integer, Task> tasks = getTasks(req, false);
       List<String> errors = (List<String>) req.getAttribute("errors");
 
       // Pass the objects to Thymeleaf context
       final WebContext webCtx = new WebContext(req, resp, getServletContext());
-      webCtx.setVariable("tasks", tasks);
+      if (tasks != null  && !tasks.isEmpty()) {
+        webCtx.setVariable("tasks", tasks.values());
+      }
       webCtx.setVariable("errors", errors);
 
       // Generate the page
@@ -52,21 +56,21 @@ public class HomeServlet extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
     doGet(req, resp);
   }
 
   /**
    * Gets or creates list of task from session.
    */
-  public static List<Task> getTasks(HttpServletRequest req, boolean createNewList) {
+  public static Map<Integer, Task> getTasks(HttpServletRequest req, boolean createNewList) {
     HttpSession session = req.getSession();
     Object tasksObj = session.getAttribute("tasks");
     if (tasksObj != null) {
-      return (List<Task>) tasksObj;
+      return (Map<Integer, Task>) tasksObj;
     } else {
       if (createNewList) {
-        List<Task> tasks = new ArrayList<Task>();
+        Map<Integer, Task> tasks = new TreeMap<Integer,Task>();
         session.setAttribute("tasks", tasks);
         return tasks;
       } else {
@@ -76,9 +80,9 @@ public class HomeServlet extends HttpServlet {
   }
 
   /**
-   * Checks the request params for a Task.
+   * Checks the request params for a Task, for create and edit operations.
    */
-  public static boolean validateTaskParams(HttpServletRequest req, List<String> errors) {
+  public static boolean validateTaskProperties(HttpServletRequest req, List<String> errors) {
     // Fetch params
     String paramTimeMostLikely = req.getParameter("timemostlikely");
     String paramTimeBestCase = req.getParameter("timebestcase");
@@ -107,12 +111,40 @@ public class HomeServlet extends HttpServlet {
       if (timeMostLikely <= 0 || timeBestCase <= 0 || timeWorstCase <= 0) {
         errors.add("time must be a positive number");
       }
-    } catch (NumberFormatException ex) {
+    } catch (NumberFormatException e) {
       errors.add("time must be a number");
       return false;
     }
 
     // No problem found, return true
+    return true;
+  }
+
+  /**
+   * Checks the task id param.
+   */
+  public static boolean validateTaskId(HttpServletRequest req, List<String> errors) {
+    // Fetch param
+    String paramId = req.getParameter("taskid");
+
+    // Try to get value
+    int id;
+    if (paramId == null) {
+      return false;
+    }
+    try {
+      id = Integer.parseInt(paramId);
+    } catch (NumberFormatException e) {
+      return false;
+    }
+
+    // Find id in tasks
+    Map<Integer, Task> tasks = getTasks(req, false);
+    if (tasks == null || ! tasks.containsKey(id)) {
+      // No such task
+      return false;
+    }
+
     return true;
   }
 }

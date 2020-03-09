@@ -51,15 +51,15 @@
             <td>
               <!--Edit button-->
               <form method="GET" action="edit-task">
-                <input type="number" hidden name="id" value="${task.id}">
+                <input type="number" hidden name="taskid" th:value="${task.id}">
                 <button class="btn btn-primary btn-sm" type="submit" name="edit">Edit</button>
               </form>
             </td>
             <td>
               <!--Delete button-->
               <form method="POST" action="delete-task">
-                <input type="number" hidden name="id" value="${task.id}">
-                <button class="btn btn-danger btn-sm" name="delete">Delete</button>
+                <input type="number" hidden name="taskid" th:value="${task.id}">
+                <button class="btn btn-danger btn-sm" type="submit" name="delete">Delete</button>
               </form>
             </td>
           </tr>

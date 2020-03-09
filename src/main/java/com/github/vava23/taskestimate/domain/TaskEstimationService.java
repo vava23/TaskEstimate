@@ -1,24 +1,29 @@
 package com.github.vava23.taskestimate.domain;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Task completion estimation based on PERT technique.
  */
 public class TaskEstimationService {
+  /** Unique Id generation */
+  private static AtomicInteger nextId = new AtomicInteger(1);
+
   /**
    * Creates new task from parameters.
    */
   public static Task newTask(
-      long aId,
       String aTaskName,
       double aTimeMostLikely,
       double aTimeBestCase,
       double aTimeWorstCase,
       List<String> errors
   ) {
+    // Get unique Id
+    int id = nextId.getAndIncrement();
     try {
-      return new Task(aId, aTaskName, aTimeMostLikely, aTimeBestCase, aTimeWorstCase);
+      return new Task(id, aTaskName, aTimeMostLikely, aTimeBestCase, aTimeWorstCase);
     } catch (IllegalArgumentException e) {
       // Add a message in case of exception
       if (errors != null) {

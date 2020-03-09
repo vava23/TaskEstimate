@@ -28,23 +28,23 @@ public class HomeServlet extends HttpServlet {
 
   protected boolean validateRequestParams(HttpServletRequest req) {
     // Fetch params
-    String paramMostLikelyCase = req.getParameter("mlcase");
-    String paramBestCase = req.getParameter("bestcase");
-    String paramWorstCase = req.getParameter("worstcase");
+    String paramTimeMostLikely = req.getParameter("timeostlikely");
+    String paramTimeBestCase = req.getParameter("timebestcase");
+    String paramTimeWorstCase = req.getParameter("timeworstcase");
 
     // Check if params are empty
-    if (paramWorstCase == null || paramMostLikelyCase == null || paramBestCase == null) {
+    if (paramTimeWorstCase == null || paramTimeMostLikely == null || paramTimeBestCase == null) {
       return false;
     }
-    if (paramWorstCase.isEmpty() && paramMostLikelyCase.isEmpty() && paramBestCase.isEmpty()) {
+    if (paramTimeWorstCase.isEmpty() && paramTimeMostLikely.isEmpty() && paramTimeBestCase.isEmpty()) {
       return false;
     }
 
     // Try to parse the numeric values
     try {
-      Double.parseDouble(paramMostLikelyCase);
-      Double.parseDouble(paramBestCase);
-      Double.parseDouble(paramWorstCase);
+      Double.parseDouble(paramTimeMostLikely);
+      Double.parseDouble(paramTimeBestCase);
+      Double.parseDouble(paramTimeWorstCase);
     } catch (NumberFormatException ex) {
       return false;
     }
@@ -61,12 +61,12 @@ public class HomeServlet extends HttpServlet {
       boolean correctParams = validateRequestParams(req);
       if (correctParams) {
         // Parse the input values
-        double mostLikelyCase = Double.parseDouble(req.getParameter("mlcase"));
-        double bestCase = Double.parseDouble(req.getParameter("bestcase"));
-        double worstCase = Double.parseDouble(req.getParameter("worstcase"));
+        double timeMostLikely = Double.parseDouble(req.getParameter("timeostlikely"));
+        double timeBestCase = Double.parseDouble(req.getParameter("timebestcase"));
+        double timeWorstCase = Double.parseDouble(req.getParameter("timeworstcase"));
 
         // Perform the calculations
-        estimate = TaskEstimationService.calcTaskEstimate(mostLikelyCase, bestCase, worstCase);
+        estimate = TaskEstimationService.calcTaskEstimate(timeMostLikely, timeBestCase, timeWorstCase);
       }
 
       // Pass the estimate to Thymeleaf context

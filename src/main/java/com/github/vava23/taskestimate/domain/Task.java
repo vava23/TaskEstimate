@@ -6,6 +6,7 @@ import java.util.List;
  * Single task that can be estimated
  */
 public class Task {
+  private long id;
   private String name;
   /** User-estimated time in the avg case. */
   private double timeMostLikely;
@@ -17,6 +18,10 @@ public class Task {
   private Estimate estimate;
   /** List of subtasks of this task. TODO: for future use */
   private List<Task> subtasks;
+
+  public long getId() {
+    return id;
+  }
 
   public String getName() {
     return name;
@@ -59,11 +64,13 @@ public class Task {
    * Constructor.
    */
   public Task(
+      long aId,
       String aName,
       double aTimeMostLikely,
       double aTimeBestCase,
       double aTimeWorstCase) {
     // Set the params
+    id = aId;
     if (aName == null || aName.isEmpty()) {
       name = "No name yet";
     } else {

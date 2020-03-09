@@ -46,52 +46,55 @@
               <th />
             </tr>
           </thead>
-          <tr th:for="task: ${tasks}">
+          <tr th:each="task: ${tasks}">
             <th scope="row" th:text="${taskStat.count}">1</th>
             <td th:text="${task.name}">My Task</td>
-            <td th:text="${task.mostlikely}">5</td>
-            <td th:text="${task.bestcase}">1</td>
-            <td th:text="${task.worstcase}">10</td>
+            <td th:text="${task.timemostlikely}">5</td>
+            <td th:text="${task.timebestcase}">1</td>
+            <td th:text="${task.timeworstcase}">10</td>
             <td th:text="${task.estimate.days}">6</td>
             <td th:text="${task.estimate.stdeviation}">+/- 1</td>
             <td>
               <!--Edit button-->
-              <form method="get" action="edit-task">
+              <form method="GET" action="edit-task">
                 <input type="number" hidden name="id" value="${task.id}">
                 <button class="btn btn-primary btn-sm" type="submit" name="edit">Edit</button>
               </form>
             </td>
             <td>
               <!--Delete button-->
-              <form method="post" action="delete-task">
+              <form method="POST" action="delete-task">
                 <input type="number" hidden name="id" value="${task.id}">
                 <button class="btn btn-danger btn-sm" name="delete">Delete</button>
               </form>
             </td>
           </tr>
+          <!-- Project estimate
           <tr>
             <td colspan="5" align="right"><b>Total estimate:</b></td>
             <td colspan="2"><b>
-              <span th:text="${projestimate.days} ">6</span>
-              <span th:text="${projestimate.days==1} ? 'day' : 'days'">days</span>
+              <span th:text="${totalestimate.days} ">6</span>
+              <span th:text="${totalestimate.days==1} ? 'day' : 'days'">days</span>
               <span>( +/- 1</span>
-              <span th:text="${projestimate.stdeviation==1} ? 'day)' : 'days)'">day)</span>
+              <span th:text="${totalestimate.stdeviation==1} ? 'day)' : 'days)'">day)</span>
             </b></td>
             <td />
             <td />
           </tr>
+          -->
         </table>
       </div>
+      <br>
 
       <!--Input form-->
       <div class="card">
         <h5 class="card-header" th:text="${tasks} ? 'Add a new task:' : 'Estimate your task:'">Add a new task:</h5>
         <div class="card-body">
-      <form>
+      <form method="POST" action="add-task">
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="taskname">Task name (optional)</label>
+          <label class="col-sm-4 col-form-label" for="input_taskname">Task name (optional)</label>
           <div class="col">
-            <input type="text" class="form-control" id="taskname">
+            <input class="form-control" type="text" id="input_taskname" name=taskname>
           </div>
         </div>
         <div class="form-group row">

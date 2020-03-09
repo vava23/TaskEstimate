@@ -1,6 +1,7 @@
 package com.github.vava23.taskestimate.web;
 
 import com.github.vava23.taskestimate.domain.Estimate;
+import com.github.vava23.taskestimate.domain.Task;
 import com.github.vava23.taskestimate.domain.TaskEstimationService;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -28,6 +30,9 @@ public class HomeServlet extends HttpServlet {
     application = new TaskEstimateApplication(getServletContext());
   }
 
+  /**
+   * Checks the request params.
+   */
   protected boolean validateRequestParams(HttpServletRequest req, List<String> errors) {
     // Fetch params
     String paramTimeMostLikely = req.getParameter("timeostlikely");
@@ -35,8 +40,15 @@ public class HomeServlet extends HttpServlet {
     String paramTimeWorstCase = req.getParameter("timeworstcase");
 
     // Check if params are empty
-    if ((paramTimeWorstCase == null || paramTimeMostLikely == null || paramTimeBestCase == null) ||
-    (paramTimeWorstCase.isEmpty() && paramTimeMostLikely.isEmpty() && paramTimeBestCase.isEmpty())) {
+    if ((
+        paramTimeWorstCase == null
+            || paramTimeMostLikely == null
+            || paramTimeBestCase == null)
+        ||
+        (paramTimeWorstCase.isEmpty()
+            && paramTimeMostLikely.isEmpty()
+            && paramTimeBestCase.isEmpty())
+    ) {
       errors.add("some parameters are missing");
       return false;
     }
@@ -59,26 +71,36 @@ public class HomeServlet extends HttpServlet {
     return true;
   }
 
+  /**
+   * Gets or creates list of task from session.
+   */
+  private List<Task> getTasks(HttpServletRequest req, boolean createNewList) {
+    HttpSession session = req.getSession();
+    Object tasksObj = session.getAttribute("tasks");
+    if (tasksObj != null) {
+      return (List<Task>) tasksObj;
+    } else {
+      if (createNewList) {
+        List<Task> tasks = new ArrayList<Task>();
+        session.setAttribute("tasks", tasks);
+        return tasks;
+      } else {
+        return null;
+      }
+    }
+  }
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-    List<String> errors = new ArrayList<String>();
     try {
-      Estimate estimate = null;
-      // Check the params
-      boolean correctParams = validateRequestParams(req, errors);
-      if (correctParams) {
-        // Parse the input values
-        double timeMostLikely = Double.parseDouble(req.getParameter("timeostlikely"));
-        double timeBestCase = Double.parseDouble(req.getParameter("timebestcase"));
-        double timeWorstCase = Double.parseDouble(req.getParameter("timeworstcase"));
+      // Get attr objects from the request
+      List<Task> tasks = getTasks(req, false);
+      List<String> errors = (List<String>) req.getAttribute("errors");
 
-        // Perform the calculations
-        estimate = TaskEstimationService.calcTaskEstimate(timeMostLikely, timeBestCase, timeWorstCase);
-      }
-
-      // Pass the estimate to Thymeleaf context
+      // Pass the objects to Thymeleaf context
       final WebContext webCtx = new WebContext(req, resp, getServletContext());
-      webCtx.setVariable("estimate", estimate);
+      webCtx.setVariable("tasks", tasks);
+      webCtx.setVariable("errors", errors);
 
       // Generate the page
       ITemplateEngine templateEngine = application.getTemplateEngine();
@@ -91,6 +113,38 @@ public class HomeServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    List<String> errors = new ArrayList<String>();
+    List<Task> tasks = null;
+
+    // Check the params
+    boolean correctParams = validateRequestParams(req, errors);
+    if (correctParams) {
+      // Parse the input values
+      String taskname = req.getParameter("taskname");
+      double timeMostLikely = Double.parseDouble(req.getParameter("timeostlikely"));
+      double timeBestCase = Double.parseDouble(req.getParameter("timebestcase"));
+      double timeWorstCase = Double.parseDouble(req.getParameter("timeworstcase"));
+
+      // Create the new task and ad it to the list
+      long id = newTaskId(req);
+      Task newTask = TaskEstimationService.newTask(
+          id, taskname, timeMostLikely, timeBestCase, timeWorstCase, errors);
+      if (newTask != null) {
+        // Get the task list
+        tasks = getTasks(req, true);
+        tasks.add(newTask);
+      }
+    }
+
     doGet(req, resp);
+  }
+
+  private long newTaskId(HttpServletRequest req) {
+    List<Task> tasks = getTasks(req, false);
+    if (tasks != null) {
+      return tasks.size() + 1;
+    } else {
+      return 1;
+    }
   }
 }

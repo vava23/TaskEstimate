@@ -4,6 +4,8 @@ import com.github.vava23.taskestimate.domain.Estimate;
 import com.github.vava23.taskestimate.domain.TaskEstimationService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,26 +28,30 @@ public class HomeServlet extends HttpServlet {
     application = new TaskEstimateApplication(getServletContext());
   }
 
-  protected boolean validateRequestParams(HttpServletRequest req) {
+  protected boolean validateRequestParams(HttpServletRequest req, List<String> errors) {
     // Fetch params
     String paramTimeMostLikely = req.getParameter("timeostlikely");
     String paramTimeBestCase = req.getParameter("timebestcase");
     String paramTimeWorstCase = req.getParameter("timeworstcase");
 
     // Check if params are empty
-    if (paramTimeWorstCase == null || paramTimeMostLikely == null || paramTimeBestCase == null) {
-      return false;
-    }
-    if (paramTimeWorstCase.isEmpty() && paramTimeMostLikely.isEmpty() && paramTimeBestCase.isEmpty()) {
+    if ((paramTimeWorstCase == null || paramTimeMostLikely == null || paramTimeBestCase == null) ||
+    (paramTimeWorstCase.isEmpty() && paramTimeMostLikely.isEmpty() && paramTimeBestCase.isEmpty())) {
+      errors.add("some parameters are missing");
       return false;
     }
 
     // Try to parse the numeric values
     try {
-      Double.parseDouble(paramTimeMostLikely);
-      Double.parseDouble(paramTimeBestCase);
-      Double.parseDouble(paramTimeWorstCase);
+      double timeMostLikely = Double.parseDouble(paramTimeMostLikely);
+      double timeBestCase = Double.parseDouble(paramTimeBestCase);
+      double timeWorstCase = Double.parseDouble(paramTimeWorstCase);
+
+      if (timeMostLikely <= 0 || timeBestCase <= 0 || timeWorstCase <= 0) {
+        errors.add("time must be a positive number");
+      }
     } catch (NumberFormatException ex) {
+      errors.add("time must be a number");
       return false;
     }
 
@@ -55,10 +61,11 @@ public class HomeServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    List<String> errors = new ArrayList<String>();
     try {
       Estimate estimate = null;
       // Check the params
-      boolean correctParams = validateRequestParams(req);
+      boolean correctParams = validateRequestParams(req, errors);
       if (correctParams) {
         // Parse the input values
         double timeMostLikely = Double.parseDouble(req.getParameter("timeostlikely"));

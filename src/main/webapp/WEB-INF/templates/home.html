@@ -20,12 +20,6 @@
           <b>Expected completion time</b>: <span th:text="${#numbers.formatDecimal(estimate.days, 1, 1)}">5.7</span> days<br>
           <b>Accuracy</b>: +/-<span th:text="${#numbers.formatDecimal(estimate.stDeviation, 1, 1)}">1.0</span> days
         </p>
-        <h5>Input params were:</h5>
-        <p>
-          <b>Most likely</b>: <span th:text="${param.timemostlikely}">5.0</span> days<br>
-          <b>Best case</b>: <span th:text="${param.timebestcase}">4.0</span> days<br>
-          <b>Worst case</b>: <span th:text="${param.timeworstcase}">10.0</span> days
-        </p>
       </div>
 
       <!--Results table-->

@@ -8,6 +8,10 @@
   <display-name>Task Estimate Application</display-name>
 
   <servlet>
+    <servlet-name>AddTask</servlet-name>
+    <servlet-class>com.github.vava23.taskestimate.web.AddTaskServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>TaskEstimate</servlet-name>
     <servlet-class>com.github.vava23.taskestimate.web.HomeServlet</servlet-class>
   </servlet>
@@ -24,6 +28,10 @@
   <servlet-mapping>
     <servlet-name>TaskEstimate</servlet-name>
     <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddTask</servlet-name>
+    <url-pattern>/add-task</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>default</servlet-name>

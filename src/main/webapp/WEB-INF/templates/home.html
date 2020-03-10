@@ -8,50 +8,130 @@
   </head>
   <body bgcolor=#f0f8ff>
     <div class="container">
-    <h1>This is the Task Estimate Tool</h1>
-    <p><i>This tool is designed for estimating a task completion time with a probabilistic approach.</i></p>
+      <h1>This is the Task Estimate Tool</h1>
+      <p><i>This tool is designed for estimating a task completion time <a href="https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique">with a probabilistic approach</a>.</i>
+      </p>
+      <br>
 
-    <!--Input form-->
-    <form action="" method=POST role="form">
-      <div class="form-group">
-        <label for="inputmlcase">Most likely estimate, days:</label>
-        <br>
-        <input type=number id="inputmlcase" name=mlcase min=0 max=9999 required="required"><!-- aria-describedby="mlcasehelp"-->
-        <br>
-        <small class="form-text text-muted" id="mlcasehelp">Average completion time for such task</small>
+      <!-- Results -->
+      <div th:if="${estimate}">
+        <h5>Your result:</h5>
+        <p>
+          <b>Expected completion time</b>: <span th:text="${#numbers.formatDecimal(estimate.days, 1, 1)}">5.7</span> days<br>
+          <b>Accuracy</b>: +/-<span th:text="${#numbers.formatDecimal(estimate.stDeviation, 1, 1)}">1.0</span> days
+        </p>
       </div>
-      <div class="form-group">
-        <label for="inputbestcase">Estimate in the best case (optimistic), days:</label>
-        <br>
-        <input type=number id="inputbestcase" name=bestcase min=0 max=9999 required="required">
-        <br>
-        <small class="form-text text-muted" id="bestcasehelp">Completion time if everything goes smooth and easy</small>
-      </div>
-      <div class="form-group">
-        <label for="inputworstcase">Estimate in the worst case (pessimistic), days:</label>
-        <br>
-        <input type=number id="inputworstcase" name=worstcase min=0 max=9999 required="required">
-        <br>
-        <small class="form-text text-muted" id="worstcasehelp">Completion time in the worst circumstances, considering all the unexpected problems</small>
-      </div>
-      <button type=submit class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Get estimate</button>
-    </form>
-    <br>
 
-    <!-- Results -->
-    <div th:if="${estimate}">
-    <h2>Result:</h2>
-    <p>
-        <b>Expected completion time</b>: <span th:text="${#numbers.formatDecimal(estimate.days, 1, 1)}">5.7</span> days<br>
-        <b>Accuracy</b>: +/-<span th:text="${#numbers.formatDecimal(estimate.stDeviation, 1, 1)}">1.0</span> days
-    </p>
-    <h2>Input params were:</h2>
-    <p>
-        <b>Most likely</b>: <span th:text="${param.mlcase}">5.0</span> days<br>
-        <b>Best case</b>: <span th:text="${param.bestcase}">4.0</span> days<br>
-        <b>Worst case</b>: <span th:text="${param.worstcase}">10.0</span> days
-    </p>
-    </div>
+      <!--Results table-->
+      <div th:if="${tasks}">
+        <h5>Your tasks:</h5>
+        <table class="table">
+          <!--<caption>List of tasks</caption>-->
+          <thead class="thead-light">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Most likely</th>
+              <th>Best case</th>
+              <th>Worst case</th>
+              <th>Estimate, days</th>
+              <th>Accuracy, days</th>
+              <th />
+              <th />
+            </tr>
+          </thead>
+          <tr th:each="task: ${tasks}">
+            <th scope="row" th:text="${taskStat.count}">1</th>
+            <td th:text="${task.name}">My Task</td>
+            <td th:text="${task.timemostlikely}">5</td>
+            <td th:text="${task.timebestcase}">1</td>
+            <td th:text="${task.timeworstcase}">10</td>
+            <td th:text="${#numbers.formatDecimal(task.estimate.days, 1, 1)}">6</td>
+            <td th:text="${'+/- ' + #numbers.formatDecimal(task.estimate.stdeviation, 1, 1)}">+/- 1</td>
+            <td>
+              <!--Edit button-->
+              <form method="GET" action="edit-task">
+                <input type="number" hidden name="taskid" th:value="${task.id}">
+                <button class="btn btn-primary btn-sm" type="submit" name="edit">Edit</button>
+              </form>
+            </td>
+            <td>
+              <!--Delete button-->
+              <form method="POST" action="delete-task">
+                <input type="number" hidden name="taskid" th:value="${task.id}">
+                <button class="btn btn-danger btn-sm" type="submit" name="delete">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <!-- Project estimate
+          <tr>
+            <td colspan="5" align="right"><b>Total estimate:</b></td>
+            <td colspan="2"><b>
+              <span th:text="${totalestimate.days} ">6</span>
+              <span th:text="${totalestimate.days==1} ? 'day' : 'days'">days</span>
+              <span>( +/- 1</span>
+              <span th:text="${totalestimate.stdeviation==1} ? 'day)' : 'days)'">day)</span>
+            </b></td>
+            <td />
+            <td />
+          </tr>
+          -->
+        </table>
+      </div>
+      <br>
+
+      <!--Input form-->
+      <div class="card">
+        <h5 class="card-header" th:text="${tasks} ? 'Add a new task:' : 'Estimate your task:'">Add a new task:</h5>
+        <div class="card-body">
+          <form method="POST" action="add-task">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_taskname">Task name (optional)</label>
+              <div class="col">
+                <input class="form-control" type="text" id="input_taskname" name=taskname th:value="${errors} ? ${param.taskname}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timeml">Most likely estimate, days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timeml" name="timemostlikely" min=0 max=9999
+                       required="required" th:value="${errors} ? ${param.timemostlikely}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timeml">Average completion time for such task</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timebc">Estimate in the best case (optimistic),
+                days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timebc" name="timebestcase" min=0 max=9999
+                       required="required" th:value="${errors} ? ${param.timebestcase}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timebc">Completion time if everything goes smooth and
+                  easy</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timewc">Estimate in the worst case (pessimistic),
+                days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timewc" name="timeworstcase" min=0 max=9999
+                       required="required" th:value="${errors} ? ${param.timeworstcase}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timewc">Completion time in the worst circumstances,
+                  considering all the unexpected problems</small>
+              </div>
+            </div>
+            <p class="text-danger" th:each="errormessage: ${errors}" th:text="${'Error: ' + errormessage}">Error: error message</p>
+            <button type=submit class="btn btn-primary" th:text="${tasks} ? 'Add task' : 'Get estimate'">Add task
+            </button>
+          </form>
+        </div>
+      </div>
+
     </div>
     <script type="text/javascript" src="../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
   </body>

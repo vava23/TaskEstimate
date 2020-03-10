@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Task Estimate</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}"/>
+  </head>
+  <body bgcolor=#f0f8ff>
+    <div class="container">
+      <h1>This is the Task Estimate Tool</h1>
+      <p><i>This tool is designed for estimating a task completion time <a href="https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique">with a probabilistic approach</a>.</i>
+      </p>
+      <br>
+
+      <!--Edit form-->
+      <div class="card">
+        <h5 class="card-header">Edit a task:</h5>
+        <div class="card-body">
+          <form method="POST" action="edit-task">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_taskname">Task name (optional)</label>
+              <div class="col">
+                <input class="form-control" type="text" id="input_taskname" name=taskname th:value="${task.name}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timeml">Most likely estimate, days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timeml" name="timemostlikely" min=0 max=9999
+                       required="required" th:value="${task.timemostlikely}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timeml">Average completion time for such task</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timebc">Estimate in the best case (optimistic),
+                days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timebc" name="timebestcase" min=0 max=9999
+                       required="required" th:value="${task.timebestcase}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timebc">Completion time if everything goes smooth and
+                  easy</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="input_timewc">Estimate in the worst case (pessimistic),
+                days</label>
+              <div class="col-sm-2">
+                <input class="form-control" type="number" id="input_timewc" name="timeworstcase" min=0 max=9999
+                       required="required" th:value="${task.timeworstcase}">
+              </div>
+              <div class="col">
+                <small class="form-text text-muted" id="help_timewc">Completion time in the worst circumstances,
+                  considering all the unexpected problems</small>
+              </div>
+            </div>
+            <p class="text-danger" th:each="errormessage: ${errors}" th:text="${'Error: ' + errormessage}">Error: error message</p>
+            <input type="number" hidden name="taskid" th:value="${task.id}">
+            <button type=submit class="btn btn-success">Save task</button>
+            <!--<button type=submit class="btn btn-danger">Cancel</button>-->
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <script type="text/javascript" src="../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+  </body>
+</html>

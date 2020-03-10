@@ -11,6 +11,18 @@
     <servlet-name>TaskEstimate</servlet-name>
     <servlet-class>com.github.vava23.taskestimate.web.HomeServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AddTask</servlet-name>
+    <servlet-class>com.github.vava23.taskestimate.web.AddTaskServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EditTask</servlet-name>
+    <servlet-class>com.github.vava23.taskestimate.web.EditTaskServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteTask</servlet-name>
+    <servlet-class>com.github.vava23.taskestimate.web.DeleteTaskServlet</servlet-class>
+  </servlet>
 
   <filter>
     <filter-name>EncodingFilter</filter-name>
@@ -26,12 +38,24 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>AddTask</servlet-name>
+    <url-pattern>/add-task</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditTask</servlet-name>
+    <url-pattern>/edit-task</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteTask</servlet-name>
+    <url-pattern>/delete-task</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/resources/*</url-pattern>
   </servlet-mapping>
 
   <filter-mapping>
     <filter-name>EncodingFilter</filter-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
 </web-app>

@@ -41,5 +41,8 @@ public class TaskEstimateApplication {
     // Ititialize the template engine
     templateEngine = new TemplateEngine();
     templateEngine.setTemplateResolver(templateResolver);
+
+    // Store template engine in servlet context
+    ctx.setAttribute("templateEngine", templateEngine);
   }
 }

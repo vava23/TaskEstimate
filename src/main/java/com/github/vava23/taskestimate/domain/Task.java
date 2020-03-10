@@ -6,6 +6,7 @@ import java.util.List;
  * Single task that can be estimated
  */
 public class Task {
+  private int id;
   private String name;
   /** User-estimated time in the avg case. */
   private double timeMostLikely;
@@ -17,6 +18,10 @@ public class Task {
   private Estimate estimate;
   /** List of subtasks of this task. TODO: for future use */
   private List<Task> subtasks;
+
+  public int getId() {
+    return id;
+  }
 
   public String getName() {
     return name;
@@ -59,11 +64,13 @@ public class Task {
    * Constructor.
    */
   public Task(
+      int aId,
       String aName,
       double aTimeMostLikely,
       double aTimeBestCase,
       double aTimeWorstCase) {
     // Set the params
+    id = aId;
     if (aName == null || aName.isEmpty()) {
       name = "No name yet";
     } else {
@@ -82,13 +89,13 @@ public class Task {
   ) {
     // Check the inputs
     if (aTimeBestCase < 0 || aTimeWorstCase < 0 || aTimeMostLikely < 0) {
-      throw new IllegalArgumentException("Time value may not be negative");
+      throw new IllegalArgumentException("time value may not be negative");
     }
     if (Double.compare(aTimeBestCase, aTimeMostLikely) > 0) {
-      throw new IllegalArgumentException("Best case time may not exceed most likely time");
+      throw new IllegalArgumentException("best case time may not exceed most likely time");
     }
     if (Double.compare(aTimeMostLikely, aTimeWorstCase) > 0) {
-      throw new IllegalArgumentException("Most likely time may not exceed worst case time");
+      throw new IllegalArgumentException("most likely time may not exceed worst case time");
     }
 
     // Save the params

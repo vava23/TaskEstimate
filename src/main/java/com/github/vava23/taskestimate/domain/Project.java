@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Project that consists of tasks.
+ * Project that consists of tasks, for future use.
  */
 public class Project {
   private String name;
-
   /** List of tasks. */
   private List<Task> tasks = new ArrayList<Task>();
   /** Combined expected time estimate for the project. */
@@ -16,6 +15,10 @@ public class Project {
 
   public String getName() {
     return name;
+  }
+
+  public Estimate getEstimate() {
+    return estimate;
   }
 
   /** Sets the project name with some basic checks. */

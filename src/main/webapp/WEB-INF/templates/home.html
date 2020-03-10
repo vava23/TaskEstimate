@@ -34,8 +34,8 @@
               <th>Most likely</th>
               <th>Best case</th>
               <th>Worst case</th>
-              <th>Estimate</th>
-              <th>Accuracy</th>
+              <th>Estimate, days</th>
+              <th>Accuracy, days</th>
               <th />
               <th />
             </tr>
@@ -46,8 +46,8 @@
             <td th:text="${task.timemostlikely}">5</td>
             <td th:text="${task.timebestcase}">1</td>
             <td th:text="${task.timeworstcase}">10</td>
-            <td th:text="${task.estimate.days}">6</td>
-            <td th:text="${task.estimate.stdeviation}">+/- 1</td>
+            <td th:text="${#numbers.formatDecimal(task.estimate.days, 1, 1)}">6</td>
+            <td th:text="${'+/- ' + #numbers.formatDecimal(task.estimate.stdeviation, 1, 1)}">+/- 1</td>
             <td>
               <!--Edit button-->
               <form method="GET" action="edit-task">

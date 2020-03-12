@@ -43,6 +43,10 @@ public class HomeServlet extends HttpServlet {
       final WebContext webCtx = new WebContext(req, resp, getServletContext());
       if (tasks != null  && !tasks.isEmpty()) {
         webCtx.setVariable("tasks", tasks.values());
+        if (tasks.size() > 1) {
+          Estimate totalEstimate = TaskEstimationService.combineEstimates(tasks.values());
+          webCtx.setVariable("totalestimate", totalEstimate);
+        }
       }
       webCtx.setVariable("errors", errors);
 

@@ -47,19 +47,20 @@ public class TaskEstimationService {
   /**
    * Summarizes estimates giving the total completion estimate for a set of tasks.
    */
-  public static Estimate combineEstimates(List<Estimate> aEstimates)
+  public static Estimate combineEstimates(Iterable<Task> aTasks)
       throws IllegalArgumentException {
     // Check input
-    if (aEstimates == null) {
-      throw new IllegalArgumentException("set of estimates is NULL");
+    if (aTasks == null) {
+      throw new IllegalArgumentException("set of tasks is NULL");
     }
 
     // Sum up the time and stDevs
     double time = 0;
     double stDevSqSum = 0;
-    for (Estimate e : aEstimates) {
-      time += e.getDays();
-      stDevSqSum += Math.pow(e.getStDeviation(), 2);
+    for (Task tsk : aTasks) {
+      Estimate tmpEstimate = tsk.getEstimate();
+      time += tmpEstimate.getDays();
+      stDevSqSum += Math.pow(tmpEstimate.getStDeviation(), 2);
     }
 
     // Calc the result

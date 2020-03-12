@@ -27,7 +27,7 @@
             <div class="form-group row">
               <label class="col-sm-4 col-form-label" for="input_timeml">Most likely estimate, days</label>
               <div class="col-sm-2">
-                <input class="form-control" type="number" id="input_timeml" name="timemostlikely" min=0 max=9999
+                <input class="form-control" type="number" id="input_timeml" name="timemostlikely" min=0.1 max=9999 step=0.1
                        required="required" th:value="${task.timemostlikely}">
               </div>
               <div class="col">
@@ -38,7 +38,7 @@
               <label class="col-sm-4 col-form-label" for="input_timebc">Estimate in the best case (optimistic),
                 days</label>
               <div class="col-sm-2">
-                <input class="form-control" type="number" id="input_timebc" name="timebestcase" min=0 max=9999
+                <input class="form-control" type="number" id="input_timebc" name="timebestcase" min=0.1 max=9999 step=0.1
                        required="required" th:value="${task.timebestcase}">
               </div>
               <div class="col">
@@ -50,7 +50,7 @@
               <label class="col-sm-4 col-form-label" for="input_timewc">Estimate in the worst case (pessimistic),
                 days</label>
               <div class="col-sm-2">
-                <input class="form-control" type="number" id="input_timewc" name="timeworstcase" min=0 max=9999
+                <input class="form-control" type="number" id="input_timewc" name="timeworstcase" min=0.1 max=9999 step=0.1
                        required="required" th:value="${task.timeworstcase}">
               </div>
               <div class="col">

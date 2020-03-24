@@ -94,6 +94,21 @@
               <!--<port>8090</port>-->
             </configuration>
         </plugin>
+        <!--Embeddded Jetty for debugging-->
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>9.4.27.v20200227</version>
+          <configuration>
+            <scanIntervalSeconds>10</scanIntervalSeconds>
+            <webApp>
+              <contextPath>/task-estimate</contextPath>
+            </webApp>
+            <httpConnector>
+              <port>8090</port>
+            </httpConnector>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

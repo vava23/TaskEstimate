@@ -32,7 +32,7 @@ public class TaskEstimationServiceTest {
     }
 
     @Test
-    static void calcTaskEstimateTest() {
+    void calcTaskEstimateTest() {
         // Incorrect input
         boolean thrown = true;
         try {
@@ -69,7 +69,7 @@ public class TaskEstimationServiceTest {
     }
 
     @Test
-    static void combineEstimatesTest() {
+    void combineEstimatesTest() {
         // Null list on input
         boolean thrown = true;
         try {
@@ -85,9 +85,11 @@ public class TaskEstimationServiceTest {
         Assert.assertEquals(estimate.getStDeviation(), REF_ESTIMATE_TOTAL.getStDeviation(), DELTA);
     }
 
-    /** Run all tests */
+    /* Debug: Run all tests */
+    /*
     public static void main(String[] args) {
         calcTaskEstimateTest();
         combineEstimatesTest();
     }
+    */
 }

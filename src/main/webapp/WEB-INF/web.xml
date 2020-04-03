@@ -67,4 +67,9 @@
     <extension>js</extension>
     <mime-type>text/javascript</mime-type>
   </mime-mapping>
+
+  <session-config>
+    <!--Disable URL rewriting: http://forum.thymeleaf.org/Thymeleaf-adding-jsessionid-to-all-my-js-css-requests-td4029327.html -->
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
 </web-app>
